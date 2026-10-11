@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+report.html
+results.json
+# The registry itself, plus anything derived from it: SQLite's -wal/-shm
+# sidecars and the dated .bak copies a migration leaves behind. The bare name
+# let `janken.db.before-...bak` walk straight past this once already.
+janken.db*
+submissions/
+.venv/
+deploy/
+.streamlit/secrets.toml
+# Everything Streamlit serves from /app/static is derived from the registry, so
+# the whole directory is a cache rather than source: the broadcast payload
+# (`cup-<hash>.json`, rewritten on every reveal) and the avatars exported from
+# `bot_images`. Every writer creates the directory on demand, so a fresh clone
+# rebuilds it — nothing here needs to be committed, or a .gitkeep to survive.
+static/

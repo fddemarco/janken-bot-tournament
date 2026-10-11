@@ -1,0 +1,16 @@
+[theme]
+# Muttdata palette only (verified against the muttdata-brand skill).
+# Light surface for dense/reading content; navy is reserved for the header.
+base = "light"
+primaryColor = "#0045FB"          # --md-blue
+backgroundColor = "#FFFFFF"       # --md-white
+secondaryBackgroundColor = "#E1E4ED"  # --md-mist
+textColor = "#001237"             # --md-navy
+font = "sans serif"
+
+[server]
+headless = true
+# Serves ./static at /app/static. The cup page polls static/cup.json from
+# inside its iframe so a new round reaches every viewer without a Streamlit
+# rerun — which would remount the iframe and interrupt the animation.
+enableStaticServing = true

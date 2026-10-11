@@ -1,0 +1,29 @@
+[project]
+name = "janken-bot-competition"
+version = "0.1.0"
+description = "Rock-paper-scissors bot tournament (engine is stdlib-only; the dashboard uses Streamlit)."
+# The *bots* and the engine remain 3.9-compatible — this floor is for the
+# dashboard's environment. On 3.9 the resolver falls back to Streamlit 1.50,
+# whose Tornado-based sign-in breaks the OAuth callback ("400: 'NoneType' object
+# does not support item assignment"). Amazon Linux 2023 ships 3.9 as python3, so
+# without this floor a server install silently gets the broken one.
+requires-python = ">=3.11"
+dependencies = [
+    # [auth] pulls in Authlib, which powers the dashboard's Google sign-in;
+    # st.login/st.user need Streamlit 1.42+. The floor is 1.60 for the cup
+    # page: it embeds its broadcast with st.iframe, which replaced the
+    # now-removed st.components.v1.html and is also what grants the embedded
+    # page same-origin access — without that the view cannot poll the payload
+    # Streamlit serves, and a reveal never reaches an open browser.
+    "streamlit[auth]>=1.60",
+    # Bot avatars: decoding an upload and re-encoding it as a square PNG
+    # (janken/avatar.py). Streamlit already pulls Pillow in, but this declares
+    # it because we import it ourselves — an indirect dependency is free to
+    # vanish in a future Streamlit release.
+    "pillow>=10",
+]
+
+[tool.uv]
+# The engine is a plain stdlib module run via `python -m janken`; uv just
+# manages the dashboard's dependency, it doesn't build this as a package.
+package = false
